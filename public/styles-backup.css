@@ -1,0 +1,441 @@
+body {
+    background-color: #000;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Verdana', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+  color: #ffffff;
+}
+
+.timer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white; /* Box background color */
+    border: 3px solid #2E3089; /* Box border */
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 400px; /* Adjust width as needed */
+    height: 20%; /* Height of the box */
+    margin: 0px;
+    z-index: 1; /* Keep above other content */
+}
+
+.shotclock-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white; /* Box background color */
+    border: 3px solid #2E3089; /* Box border */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 60px; /* Adjust width as needed */
+    height: 40px; /* Height of the box */
+    margin: 0px;
+    z-index: 1; /* Keep above other content */
+}
+
+.scoreboard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    height: 700px; /* STILL NEEDS TO BE MADE DYNAMIC */
+    text-align: center;
+    /*background-color: #303030;
+    box-shadow: 10px 10px #96a9a7;*/
+    color: white;
+    margin: 10px auto;
+    padding: 10px;
+    position: relative;
+}
+
+.teamgrid {
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    
+}
+
+.team {
+    /*background-color: #4f4f4f;*/
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-size: 2rem;
+    margin: 20px;
+    opacity: 0.88;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    z-index: 1;
+    max-width: 100%;
+    min-width: 500px;
+    box-sizing: border-box;
+}
+div.teamLogo img {
+  max-height: 350px;
+}
+#team1-score, #team2-score {
+  font-size: 5em;
+}
+#team1-name, #team2-name {
+  display: none;
+}
+
+div.purple {
+  color: #6C4B94;
+}
+div.yellow {
+  color: #F9ED11;
+}
+div.green {
+  color: #3CB54A;
+}
+
+.center-section {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 0 auto;
+    flex-grow: 1;
+    gap: 10px; 
+    position: relative;
+}
+
+.time{
+    text-align: center;
+    color: black;
+    size: 160px;
+}
+
+.shotClock {
+    text-align: center;
+    color: red;
+}
+
+.logo {
+    position: flex;
+    max-width: 160px;   
+    z-index: 2; /*  logo on top of the teams */
+}
+
+h1 {
+    font-size: 7rem;
+    padding: 0;
+    margin: 10px 0;
+    font-family: 'Timessquare';
+}
+
+h2 {
+    font-size: 4rem;
+    font-family: 'Timessquare';
+    margin: 0;
+    padding: 0;
+}
+
+h3 {
+    font-size: 10rem;
+    padding: 0;
+    margin: 10px 0;
+    font-family: 'Timessquare'
+}
+
+h4 {
+    font-size: 5rem;
+    font-family: 'Timessquare';
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    font-size: 2rem;
+    text-align: center;
+    color: #eb2828;
+    font-family: 'Ozone';
+    margin: 10px 0;
+}
+
+.teamSettings {
+    left: 0;
+    height: 30%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.scoreBoardControls {
+    left: 0;
+    height: 30%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-color: #eb2828;
+}
+
+.scoreBoardSetter {
+    background-color: #eb2828;
+    position: relative;
+    left: 0;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.scoreBoardSetterA, .scoreBoardSetterB {
+    background-color: #eb2828;
+    position: relative;
+    padding: 10px;
+    margin: 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+}
+
+.scoreBoardMisc {
+    position: relative;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.teamNameSetter {
+    background-color: #eb2828;
+    position: relative;
+    top: 20%;
+    padding: 10px;
+    margin: 25px 10px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-content: space-around;
+}
+.team1Setter, .team2Setter {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+  align-content: stretch;
+  align-items: stretch;
+}
+
+.timeSettings {
+    left: 0;
+    height: 30%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.timeSetter {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-size: 2rem;
+    margin: 20px;
+    opacity: 0.88;
+    padding: 1.5rem 1rem;
+    z-index: 1;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.containerTimer {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+}
+
+.shotClockSetter {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-size: 2rem;
+    margin: 20px;
+    opacity: 0.88;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    z-index: 1;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.containerSC {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    align-items: center;
+}
+
+.buttons {
+    margin: 7px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 15px;
+    margin: 7px;
+    font-size: 1rem;
+    font-family: Roboto, sans-serif;
+    border-radius: 7px;
+    background-color: #303030;
+    border-color: #303030;
+    color: white;
+}
+
+button:hover {
+  background-color: #ffffff;
+  color: #303030;
+}
+button#resetTeamName, button#resetScore {
+  background-color: #ffffff;
+  color: #eb2828;
+}
+button#resetTeamName:hover, button#resetScore:hover {
+  background-color: #eb2828;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.other {
+    text-align: center;
+    padding-top: 1.5rem;
+}
+
+input, select {
+    font-size: 1.5rem;
+    text-align: center;
+    padding: 15px;
+    border: 3px solid #2E3089;
+    margin: 5px;
+    border-radius: 7px;
+}
+
+
+@font-face {
+    font-family: 'Ozone';
+    src: url('./assets/ozone-font/Ozone-xRRO.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Timessquare';
+    src: url('./assets/times-square-font/ts.ttf') format('truetype');
+}
+
+@media (max-width: 1200px) {
+    .scoreboard {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    .header {
+        font-size: 1.5rem;
+    }
+
+    .team {
+        font-size: 1.5rem;
+        margin: 10px;
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        background-size: cover; /* Adjust background size for mobile */
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .header {
+        font-size: 1.25rem;
+    }
+
+    .team {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    .header {
+        font-size: 1rem;
+    }
+
+    .team {
+        font-size: 0.875rem;
+        padding: 0.25rem;
+    }
+
+    .logo {
+        width: 150px; /* Adjust logo size */
+    }
+
+    button {
+        font-size: 0.875rem;
+    }
+
+    input {
+        font-size: 0.875rem;
+    }
+}

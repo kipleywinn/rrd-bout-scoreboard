@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scoreboard Display</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="display-header">
+      <div>
+        <h1>
+          Round: <div id="roundNumDisplay">1</div>
+        </h1>
+      </div>
+      <div>
+        <h2><img class="displayimg" src="/images/rrd-logo-long.png" alt="Rockstar Roller Derby" />
+        </h2>
+      </div>
+      <div>
+        <h1>
+          Jam: <div id="jamNumDisplay">12</div>
+        </h1>
+      </div>
+    </div>
+    <div class="scoreboard">
+      <div class="teamgrid">
+        <div id="team1Section" class="team">
+          <div class="teamLogo" id="team1Logo"></div>
+          <h2 id="team1-name">Team 1</h2>
+          <h1 id="team1-score">0</h1>
+        </div>
+
+        <!--div class="center-section">
+          <div class="timer-box">
+            <div class="time">
+              <h3 id="timerDisp">00:00</h3>
+            </div>
+          </div>
+          <img src="./assets/logo.png" alt="Logo" class="logo" />
+          <div class="shotclock-box">
+            <div class="shotClock">
+              <h4 id="shotClockDisp">24</h4>
+            </div>
+          </div>
+        </div-->
+
+        <div id="team2Section"  class="team">
+          <div class="teamLogo" id="team2Logo"></div>
+          <h2 id="team2-name">Team 2</h2>
+          <h1 id="team2-score">0</h1>
+        </div>
+      </div>
+    </div>
+        <!--div>
+          <h4>
+            Secret Timer
+          </h4>
+          <div class="timer-box">
+            <div class="time">
+              <h3 id="timerDisp">00:00</h3>
+            </div>
+          </div>
+        </div-->
+    <script type="module" src="timer.js"></script>
+    <script type="module" src="shot-clock.js"></script>
+    <script type="module" src="display.js"></script>
+  </body>
+</html>
