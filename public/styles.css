@@ -446,17 +446,17 @@ p {
 
 @font-face {
   font-family: 'A Love of Thunder';
-  src: url('https://cdn.glitch.global/f7308c7b-9f19-43ae-b82c-d5652b2c0e10/A%20Love%20of%20Thunder.ttf?v=1742491999522');
+  src: url('/fonts/A%20Love%20of%20Thunder.ttf');
 }
 
 @font-face {
   font-family: 'Rock It';
-  src: url('https://cdn.glitch.global/f7308c7b-9f19-43ae-b82c-d5652b2c0e10/Rockit.ttf?v=1742492088073');
+  src: url('/fonts/Rockit.ttf');
 }
 
 @font-face {
   font-family: 'Viga';
-  src: url('https://cdn.glitch.global/f7308c7b-9f19-43ae-b82c-d5652b2c0e10/Viga-Regular.ttf?v=1742492069658');
+  src: url('/fonts/Viga-Regular.ttf');
 }
 
 /* MEDIA QUERY STYLES */
