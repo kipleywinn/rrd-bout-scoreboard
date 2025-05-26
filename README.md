@@ -1,17 +1,9 @@
-# Roller Derby Scoreboard
+# Rockstar Roller Derby Scoreboard
 
 ## Introduction
+This project was remixed from [Basketball Scoreboard](https://verren5.github.io/basketball-scoreboard/) back when Glitch was alive (*RIP*).
 
-This project was remixed from: [Basketball Scoreboard](https://verren5.github.io/basketball-scoreboard/).
+## Usage
+The control page is not private, so be careful who has the link! Anyone with the link could control your scoreboard.
 
-
-## Credits
-
-- "Scoreboard" font designed by dustBUST.
-- "Host" & "Guest" font designed by Charles Minow.
-
-## Third-Party Libraries
-
-This project utilizes the following third-party libraries:
-
-
+We project the display on a projector screen during bouts and the statkeeper controls the board. Currently hosted with Render.
