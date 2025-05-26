@@ -7,7 +7,21 @@ const timer = new Timer(timerDisplay); // Create a timer instance
 const shotClockDisplay = document.getElementById("shotClockDisp"); // This is the display element for the shot clock
 const shotClock = new ShotClock(shotClockDisplay); // Create a shot clock instance
 
-const socket = new WebSocket(`wss://${window.location.host}`);
+// const socket = new WebSocket(`wss://${window.location.host}`);
+
+let wsProtocol = "ws:"; // Default to unsecure WebSocket for development
+let wsHost = window.location.host; // Use the current page's host (e.g., localhost:3000 or your-domain.com)
+
+// If the page itself is loaded over HTTPS, use wss for the WebSocket
+if (window.location.protocol === "https:") {
+    wsProtocol = "wss:";
+}
+
+// Construct the full WebSocket URL
+const wsUrl = `${wsProtocol}//${wsHost}`;
+
+const socket = new WebSocket(wsUrl);
+
 
 socket.onopen = () => {
   console.log("WebSocket connection established in display page");
