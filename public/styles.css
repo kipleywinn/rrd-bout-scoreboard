@@ -62,12 +62,12 @@ body {
     padding: 15px;
 }
 div.teamLogo img {
-  max-height: 350px;
+  max-height: 300px;
 }
 #team1-score, #team2-score {
   font-size: 8em;
   background-color: #000000;
-  padding: .15em .35em;
+  padding: 0 3rem;
   border-radius: 10px;
   margin-top: 10px;
 }
@@ -133,7 +133,7 @@ h1, h2, h3, h4 {
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
-    margin: 20px 10px;
+    margin: 20px 10px 10px 10px;
     gap: 100px;
 }
 .display-header img.controlimg {
