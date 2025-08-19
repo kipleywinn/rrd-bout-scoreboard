@@ -14,7 +14,7 @@ let wsHost = window.location.host; // Use the current page's host (e.g., localho
 
 // If the page itself is loaded over HTTPS, use wss for the WebSocket
 if (window.location.protocol === "https:") {
-    wsProtocol = "wss:";
+  wsProtocol = "wss:";
 }
 
 // Construct the full WebSocket URL
@@ -64,75 +64,75 @@ socket.addEventListener("message", (event) => {
         if (data.type == "updateName1") {
           document.getElementById("team1-name").innerText = data.team1Name;
           switch (data.team1Name) {
-            case "Thrash Pandas":
-              document.getElementById(
-                "team1Logo"
+          case "Thrash Pandas":
+            document.getElementById(
+              "team1Logo"
               ).innerHTML = `<img src="/images/thrashpandas-logo.png">`;
-              break;
-            case "X Force":
-              document.getElementById(
-                "team1Logo"
+            break;
+          case "X Force":
+            document.getElementById(
+              "team1Logo"
               ).innerHTML = `<img src="/images/xforce-logo.png">`;
-              break;
-            case "Riotmakers":
-              document.getElementById(
-                "team1Logo"
+            break;
+          case "Riotmakers":
+            document.getElementById(
+              "team1Logo"
               ).innerHTML = `<img src="/images/riotmakers-logo.png">`;
-              break;
+            break;
           }
           switch (data.team1Name) {
-            case "Thrash Pandas":
-              document.getElementById("team1Section").classList.add("purple");
-              document.getElementById("team1Section").classList.remove("yellow");
-              document.getElementById("team1Section").classList.remove("green");
-              break;
-            case "X Force":
-              document.getElementById("team1Section").classList.add("yellow");
-              document.getElementById("team1Section").classList.remove("green");
-              document.getElementById("team1Section").classList.remove("purple");
-              break;
-            case "Riotmakers":
-              document.getElementById("team1Section").classList.add("green");
-              document.getElementById("team1Section").classList.remove("purple");
-              document.getElementById("team1Section").classList.remove("yellow");
-              break;
+          case "Thrash Pandas":
+            document.getElementById("team1Section").classList.add("purple");
+            document.getElementById("team1Section").classList.remove("yellow");
+            document.getElementById("team1Section").classList.remove("green");
+            break;
+          case "X Force":
+            document.getElementById("team1Section").classList.add("yellow");
+            document.getElementById("team1Section").classList.remove("green");
+            document.getElementById("team1Section").classList.remove("purple");
+            break;
+          case "Riotmakers":
+            document.getElementById("team1Section").classList.add("green");
+            document.getElementById("team1Section").classList.remove("purple");
+            document.getElementById("team1Section").classList.remove("yellow");
+            break;
           }
         }
         if (data.type == "updateName2") {
           document.getElementById("team2-name").innerText = data.team2Name;
           switch (data.team2Name) {
-            case "Thrash Pandas":
-              document.getElementById(
-                "team2Logo"
+          case "Thrash Pandas":
+            document.getElementById(
+              "team2Logo"
               ).innerHTML = `<img src="/images/thrashpandas-logo.png">`;
-              break;
-            case "X Force":
-              document.getElementById(
-                "team2Logo"
+            break;
+          case "X Force":
+            document.getElementById(
+              "team2Logo"
               ).innerHTML = `<img src="/images/xforce-logo.png">`;
-              break;
-            case "Riotmakers":
-              document.getElementById(
-                "team2Logo"
+            break;
+          case "Riotmakers":
+            document.getElementById(
+              "team2Logo"
               ).innerHTML = `<img src="/images/riotmakers-logo.png">`;
-              break;
+            break;
           }
           switch (data.team2Name) {
-            case "Thrash Pandas":
-              document.getElementById("team2Section").classList.add("purple");
-              document.getElementById("team2Section").classList.remove("yellow");
-              document.getElementById("team2Section").classList.remove("green");
-              break;
-            case "X Force":
-              document.getElementById("team2Section").classList.add("yellow");
-              document.getElementById("team2Section").classList.remove("green");
-              document.getElementById("team2Section").classList.remove("purple");
-              break;
-            case "Riotmakers":
-              document.getElementById("team2Section").classList.add("green");
-              document.getElementById("team2Section").classList.remove("purple");
-              document.getElementById("team2Section").classList.remove("yellow");
-              break;
+          case "Thrash Pandas":
+            document.getElementById("team2Section").classList.add("purple");
+            document.getElementById("team2Section").classList.remove("yellow");
+            document.getElementById("team2Section").classList.remove("green");
+            break;
+          case "X Force":
+            document.getElementById("team2Section").classList.add("yellow");
+            document.getElementById("team2Section").classList.remove("green");
+            document.getElementById("team2Section").classList.remove("purple");
+            break;
+          case "Riotmakers":
+            document.getElementById("team2Section").classList.add("green");
+            document.getElementById("team2Section").classList.remove("purple");
+            document.getElementById("team2Section").classList.remove("yellow");
+            break;
           }
         }
         if (data.type == "team1Point") {
@@ -197,6 +197,42 @@ socket.addEventListener("message", (event) => {
         if (data.type == "subtractSecondSC") {
           shotClock.subtractSecondSC();
         }
+
+        // MINI BOUT data
+        if (data.type == "miniBout") {
+          document.getElementById("rmxfrm").innerHTML = data.rmxfrm;
+          document.getElementById("rmxfxf").innerHTML = data.rmxfxf;
+          document.getElementById("rmtprm").innerHTML = data.rmtprm;
+          document.getElementById("rmtptp").innerHTML = data.rmtptp;
+          document.getElementById("tpxftp").innerHTML = data.tpxftp;
+          document.getElementById("tpxfxf").innerHTML = data.tpxfxf;
+        }
+
+        if (data.type == "fullScreenMiniBout") {
+          let hideThese = document.querySelectorAll(".miniBoutHide");
+
+          if (data.fullScreen == "true") {
+            hideThese.forEach((el) => {
+            el.classList.add("hidden");
+          });
+
+          document.getElementById("mini-bout-results-wrapper").classList.add("fullScreenMiniBout");
+          }
+
+          if (data.fullScreen == "false") {
+            hideThese.forEach((el) => {
+            el.classList.remove("hidden");
+          });
+
+          document.getElementById("mini-bout-results-wrapper").classList.remove("fullScreenMiniBout");
+          }
+
+          // hideThese.forEach((el) => {
+          //   el.classList.toggle("hidden");
+          // });
+
+          // document.getElementById("mini-bout-results-wrapper").classList.toggle("fullScreenMiniBout");
+        }
         
         // Handle pong response from the server (you need to handle this here)
         if (data.type === 'pong') {
@@ -222,7 +258,7 @@ socket.addEventListener("message", (event) => {
     } catch (error) {
       console.error("Error parsing non-Blob message:", error);
     }
-  
+
   }
   
 });
@@ -231,21 +267,21 @@ socket.addEventListener("message", (event) => {
 
 function fetchData() {
   fetch("/api/recentData") // Adjust the path if needed
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
       return response.json(); // Parse the response as JSON
     })
-    .then((data) => {
+  .then((data) => {
       // Use the retrieved data
-      console.log("Retrieved data:", data);
+    console.log("Retrieved data:", data);
       useData(data); // Call a function to display the data
     })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-      alert("Failed to retrieve data. Check the console.");
-    });
+  .catch((error) => {
+    console.error("Error fetching data:", error);
+    alert("Failed to retrieve data. Check the console.");
+  });
 }
 
 function useData(data) {
@@ -260,80 +296,91 @@ function useData(data) {
 
   document.getElementById("team1-name").innerText = team1Name;
   switch (team1Name) {
-    case "Thrash Pandas":
-      document.getElementById(
-        "team1Logo"
+  case "Thrash Pandas":
+    document.getElementById(
+      "team1Logo"
       ).innerHTML = `<img src="/images/thrashpandas-logo.png">`;
-      break;
-    case "X Force":
-      document.getElementById(
-        "team1Logo"
+    break;
+  case "X Force":
+    document.getElementById(
+      "team1Logo"
       ).innerHTML = `<img src="/images/xforce-logo.png">`;
-      break;
-    case "Riotmakers":
-      document.getElementById(
-        "team1Logo"
+    break;
+  case "Riotmakers":
+    document.getElementById(
+      "team1Logo"
       ).innerHTML = `<img src="/images/riotmakers-logo.png">`;
-      break;
+    break;
   }
   switch (team1Name) {
-    case "Thrash Pandas":
-      document.getElementById("team1Section").classList.add("purple");
-      document.getElementById("team1Section").classList.remove("yellow");
-      document.getElementById("team1Section").classList.remove("green");
-      break;
-    case "X Force":
-      document.getElementById("team1Section").classList.add("yellow");
-      document.getElementById("team1Section").classList.remove("green");
-      document.getElementById("team1Section").classList.remove("purple");
-      break;
-    case "Riotmakers":
-      document.getElementById("team1Section").classList.add("green");
-      document.getElementById("team1Section").classList.remove("purple");
-      document.getElementById("team1Section").classList.remove("yellow");
-      break;
+  case "Thrash Pandas":
+    document.getElementById("team1Section").classList.add("purple");
+    document.getElementById("team1Section").classList.remove("yellow");
+    document.getElementById("team1Section").classList.remove("green");
+    break;
+  case "X Force":
+    document.getElementById("team1Section").classList.add("yellow");
+    document.getElementById("team1Section").classList.remove("green");
+    document.getElementById("team1Section").classList.remove("purple");
+    break;
+  case "Riotmakers":
+    document.getElementById("team1Section").classList.add("green");
+    document.getElementById("team1Section").classList.remove("purple");
+    document.getElementById("team1Section").classList.remove("yellow");
+    break;
   }
 
   document.getElementById("team2-name").innerText = team2Name;
   switch (team2Name) {
-    case "Thrash Pandas":
-      document.getElementById(
-        "team2Logo"
+  case "Thrash Pandas":
+    document.getElementById(
+      "team2Logo"
       ).innerHTML = `<img src="/images/thrashpandas-logo.png">`;
-      break;
-    case "X Force":
-      document.getElementById(
-        "team2Logo"
+    break;
+  case "X Force":
+    document.getElementById(
+      "team2Logo"
       ).innerHTML = `<img src="/images/xforce-logo.png">`;
-      break;
-    case "Riotmakers":
-      document.getElementById(
-        "team2Logo"
+    break;
+  case "Riotmakers":
+    document.getElementById(
+      "team2Logo"
       ).innerHTML = `<img src="/images/riotmakers-logo.png">`;
-      break;
+    break;
   }
   switch (team2Name) {
-    case "Thrash Pandas":
-      document.getElementById("team2Section").classList.add("purple");
-      document.getElementById("team2Section").classList.remove("yellow");
-      document.getElementById("team2Section").classList.remove("green");
-      break;
-    case "X Force":
-      document.getElementById("team2Section").classList.add("yellow");
-      document.getElementById("team2Section").classList.remove("green");
-      document.getElementById("team2Section").classList.remove("purple");
-      break;
-    case "Riotmakers":
-      document.getElementById("team2Section").classList.add("green");
-      document.getElementById("team2Section").classList.remove("purple");
-      document.getElementById("team2Section").classList.remove("yellow");
-      break;
+  case "Thrash Pandas":
+    document.getElementById("team2Section").classList.add("purple");
+    document.getElementById("team2Section").classList.remove("yellow");
+    document.getElementById("team2Section").classList.remove("green");
+    break;
+  case "X Force":
+    document.getElementById("team2Section").classList.add("yellow");
+    document.getElementById("team2Section").classList.remove("green");
+    document.getElementById("team2Section").classList.remove("purple");
+    break;
+  case "Riotmakers":
+    document.getElementById("team2Section").classList.add("green");
+    document.getElementById("team2Section").classList.remove("purple");
+    document.getElementById("team2Section").classList.remove("yellow");
+    break;
   }
   document.getElementById("team1-score").innerText = team1Score;
   document.getElementById("team2-score").innerText = team2Score;
   
   document.getElementById("roundNumDisplay").innerText = roundNum;
   document.getElementById("jamNumDisplay").innerText = jamNum;
+
+  document.getElementById("rmxfrm").innerHTML = data.rmxfrm;
+  document.getElementById("rmxfxf").innerHTML = data.rmxfxf;
+  document.getElementById("rmtprm").innerHTML = data.rmtprm;
+  document.getElementById("rmtptp").innerHTML = data.rmtptp;
+  document.getElementById("tpxftp").innerHTML = data.tpxftp;
+  document.getElementById("tpxfxf").innerHTML = data.tpxfxf;
+}
+
+function miniBoutFullScreen() {
+  // TODO
 }
 
 window.onload = (event) => {

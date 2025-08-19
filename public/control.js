@@ -48,6 +48,12 @@ function writeTheData() {
     team2Score,
     roundNum,
     jamNum,
+    rmxfrm,
+    rmxfxf,
+    rmtprm,
+    rmtptp,
+    tpxftp,
+    tpxfxf
   };
 
   console.log(data);
@@ -99,6 +105,13 @@ function useData(data) {
   roundNum = parseInt(data.roundNum);
   jamNum = parseInt(data.jamNum);
 
+  rmxfrm = parseInt(data.rmxfrm);
+  rmxfxf = parseInt(data.rmxfxf);
+  rmtprm = parseInt(data.rmtprm);
+  rmtptp = parseInt(data.rmtptp);
+  tpxftp = parseInt(data.tpxftp);
+  tpxfxf = parseInt(data.tpxfxf);
+
   socket.send(
     JSON.stringify({
       type: "team1Point",
@@ -141,6 +154,28 @@ function useData(data) {
       team2Name: awayName,
     })
   );
+
+  socket.send(
+    JSON.stringify({
+      type: "miniBout",
+      rmxfrm,
+      rmxfxf,
+      rmtprm,
+      rmtptp,
+      tpxftp,
+      tpxfxf,
+    })
+  );
+
+  document.querySelector("#rmxfrm input").value = rmxfrm;
+  document.querySelector("#rmxfxf input").value = rmxfxf;
+  document.querySelector("#rmtprm input").value = rmtprm;
+  document.querySelector("#rmtptp input").value = rmtptp;
+  document.querySelector("#tpxftp input").value = tpxftp;
+  document.querySelector("#tpxfxf input").value = tpxfxf;
+
+
+
   document.getElementById("display-team2-name-controls").innerHTML = awayName;
 
   document.getElementById("override-team1-score-input").value = team1Score;
@@ -186,6 +221,14 @@ let awayName;
 let roundNum = 1;
 let jamNum = 1;
 
+// Mini bout variables
+  let rmxfrm = 0;
+  let rmxfxf = 0;
+  let rmtprm = 0;
+  let rmtptp = 0;
+  let tpxftp = 0;
+  let tpxfxf = 0;
+
 // Update scoreboard display and send updates via WebSocket
 function updateScoreboard() {
   const data = {
@@ -224,6 +267,55 @@ function overrideScore(team) {
     );
   }
   writeTheData();
+}
+
+function updateMiniBout() {
+  rmxfrm = document.querySelector("#rmxfrm input").value;
+  rmxfxf = document.querySelector("#rmxfxf input").value;
+  rmtprm = document.querySelector("#rmtprm input").value;
+  rmtptp = document.querySelector("#rmtptp input").value;
+  tpxftp = document.querySelector("#tpxftp input").value;
+  tpxfxf = document.querySelector("#tpxfxf input").value;
+
+  socket.send(
+    JSON.stringify({
+      type: "miniBout",
+      rmxfrm,
+      rmxfxf,
+      rmtprm,
+      rmtptp,
+      tpxftp,
+      tpxfxf,
+    })
+  );
+
+  writeTheData();
+}
+
+function miniBoutFullScreen() {
+  socket.send(
+    JSON.stringify({
+      type: "fullScreenMiniBout",
+      fullScreen: "true",
+    })
+  );
+}
+
+function miniBoutTinyScreen() {
+  socket.send(
+    JSON.stringify({
+      type: "fullScreenMiniBout",
+      fullScreen: "false",
+    })
+  );
+}
+
+function toggleHiddenButtons() {
+  let fullButton = document.getElementById("miniBoutFullScreen");
+  let tinyButton = document.getElementById("miniBoutTinyScreen");
+
+  fullButton.classList.toggle("hidden");
+  tinyButton.classList.toggle("hidden");
 }
 
 // Override round or jam
@@ -654,6 +746,22 @@ document.getElementById("team2-name-input").addEventListener("change", () => {
   colorSwitcher();
   disableTeamName();
 });
+
+
+document.querySelector("#rmxfrm input").addEventListener("input", () => updateMiniBout());
+document.querySelector("#rmxfxf input").addEventListener("input", () => updateMiniBout());
+document.querySelector("#rmtprm input").addEventListener("input", () => updateMiniBout());
+document.querySelector("#rmtptp input").addEventListener("input", () => updateMiniBout());
+document.querySelector("#tpxftp input").addEventListener("input", () => updateMiniBout());
+document.querySelector("#tpxfxf input").addEventListener("input", () => updateMiniBout());
+
+document.getElementById("miniBoutFullScreen").addEventListener("click", () => miniBoutFullScreen());
+document.getElementById("miniBoutTinyScreen").addEventListener("click", () => miniBoutTinyScreen());
+
+document.getElementById("miniBoutFullScreen").addEventListener("click", () => toggleHiddenButtons());
+document.getElementById("miniBoutTinyScreen").addEventListener("click", () => toggleHiddenButtons());
+
+
 //document.getElementById('exportScoreboard').addEventListener('click', () =>exportScoreboard());
 
 //timer
@@ -713,6 +821,7 @@ document.getElementById('addSecondSC').addEventListener('click', () => {
 document.getElementById('subtractSecondSC').addEventListener('click', () => {
     socket.send(JSON.stringify({ type: 'subtractSecondSC' })); 
 });*/
+
 
 window.addEventListener('load', function() {
   setTimeout(function() {

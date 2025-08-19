@@ -6,7 +6,7 @@
 :root {
   --select-border: #777777;
   --select-focus: hsla(var(--input-focus-h), var(--input-focus-s), calc(var(--input-focus-l) +
-          40%), 0.8);
+    40%), 0.8);
   --select-arrow: var(--select-border);
   --input-border: #8b8a8b;
   --input-focus-h: 45;
@@ -21,17 +21,17 @@
 }
 
 body {
-    background-color: #262626;
-    font-family: var(--standard-font), sans-serif;
-    margin: 0;
-    padding: 0;
+  background-color: #262626;
+  font-family: var(--standard-font), sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 /* DISPLAY STYLES */
 .scoreboard {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
     /*width: 90%;
     height: 700px;
     background-color: #303030;
@@ -40,9 +40,9 @@ body {
     margin: 10px auto;
     padding: 10px;
     position: relative;*/
-}
+  }
 
-.teamgrid {
+  .teamgrid {
     /*margin: 0 auto;*/
     text-align: center;
     display: flex;
@@ -50,9 +50,9 @@ body {
     justify-content: space-evenly;
     gap:40px;
     width: 100%;
-}
+  }
 
-.team {
+  .team {
     color: #ffffff;
     display: flex;
     flex-flow: column wrap;
@@ -60,30 +60,31 @@ body {
     justify-content: space-evenly;
     font-size: 2rem;
     padding: 15px;
-}
-div.teamLogo img {
-  max-height: 300px;
-}
-#team1-score, #team2-score {
-  font-size: 8em;
-  background-color: #000000;
-  padding: 0 3rem;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-#team1-name, #team2-name {
-  display: none;
-}
+  }
+  div.teamLogo img {
+    max-height: 300px;
+  }
+  #team1-score, #team2-score {
+    /*font-size: 8em; put this back after mini bout div is gone */
+    font-size: 7em;
+    background-color: #000000;
+    padding: 0 3rem;
+    border-radius: 10px;
+    margin-top: 10px;
+  }
+  #team1-name, #team2-name {
+    display: none;
+  }
 
-div.purple {
-  color: var(--purple);
-}
-div.yellow {
-  color: var(--yellow);
-}
-div.green {
-  color: var(--green);
-}
+  div.purple {
+    color: var(--purple);
+  }
+  div.yellow {
+    color: var(--yellow);
+  }
+  div.green {
+    color: var(--green);
+  }
 
 
 
@@ -99,16 +100,16 @@ h1, h2, h3, h4 {
 }
 
 .header {
-    font-size: 1.5rem;
-    text-align: center;
-    color: #eb2828;
-    font-family: var(--header-font);
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 10px;
-    gap: 10px;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #eb2828;
+  font-family: var(--header-font);
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 10px;
+  gap: 10px;
 }
 .header img.controlimg {
   max-width: 65px;
@@ -125,16 +126,17 @@ h1, h2, h3, h4 {
 }
 
 .display-header {
-    font-size: 1.5rem;
-    text-align: center;
-    color: #eb2828;
-    font-family: var(--header-font);
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 10px 10px 10px;
-    gap: 100px;
+  font-size: 1.5rem;
+  text-align: center;
+  color: #eb2828;
+  font-family: var(--header-font);
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+  /*margin: 20px 10px 10px 10px; put back after mini bouts */
+  margin: 10px 10px 10px 5px;
+  gap: 100px;
 }
 .display-header img.controlimg {
   max-width: 65px;
@@ -149,10 +151,10 @@ div#roundNumDisplay, div#jamNumDisplay {
 
 /* CONTROL STYLES */
 .teamSettings {
-    align-items: center;
-    display: flex;
-    flex-flow: column wrap;
-    padding: 10px;
+  align-items: center;
+  display: flex;
+  flex-flow: column wrap;
+  padding: 10px;
 }
 
 .scoreBoardControls {
@@ -163,18 +165,18 @@ div#roundNumDisplay, div#jamNumDisplay {
     align-items: center;
     padding: 5px;
     margin-bottom: 15px;
-}
+  }
 
-.scoreBoardSetter {
+  .scoreBoardSetter {
     /*background-color: #eb2828;*/
     align-items: center;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
     padding: 5px;
-}
+  }
 
-.scoreBoardSetterA, .scoreBoardSetterB {
+  .scoreBoardSetterA, .scoreBoardSetterB {
     background-color: #eb2828;
     padding: 10px;
     display: flex;
@@ -184,35 +186,35 @@ div#roundNumDisplay, div#jamNumDisplay {
     border: 2px solid black;
     border-radius: 10px;
     min-width: 235px;
-}
-.scoreBoardSetterA.purpleback {
-  background-color: var(--purple);
-}
-.scoreBoardSetterA.greenback {
-  background-color: var(--green);
-}
-.scoreBoardSetterA.yellowback {
-  background-color: var(--yellow);
-}
-.scoreBoardSetterB.purpleback {
-  background-color: var(--purple);
-}
-.scoreBoardSetterB.greenback {
-  background-color: var(--green);
-}
-.scoreBoardSetterB.yellowback {
-  background-color: var(--yellow);
-}
+  }
+  .scoreBoardSetterA.purpleback {
+    background-color: var(--purple);
+  }
+  .scoreBoardSetterA.greenback {
+    background-color: var(--green);
+  }
+  .scoreBoardSetterA.yellowback {
+    background-color: var(--yellow);
+  }
+  .scoreBoardSetterB.purpleback {
+    background-color: var(--purple);
+  }
+  .scoreBoardSetterB.greenback {
+    background-color: var(--green);
+  }
+  .scoreBoardSetterB.yellowback {
+    background-color: var(--yellow);
+  }
 
-.scoreBoardMisc {
+  .scoreBoardMisc {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
     width: 100%;
-}
+  }
 
-.teamNameSetter, .roundJamControl {
+  .teamNameSetter, .roundJamControl {
     background-color: #eb2828;
     display: flex;
     flex-flow: column wrap;
@@ -222,27 +224,27 @@ div#roundNumDisplay, div#jamNumDisplay {
     gap: 10px;
     padding: 10px;
     border-radius: 10px;
-}
-.team1Setter, .team2Setter, .roundJamControl div.lineItem {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  align-content: center;
-  align-items: center;
-  gap: 10px;
-  padding: 5px 10px;
-}
+  }
+  .team1Setter, .team2Setter, .roundJamControl div.lineItem {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 10px;
+  }
 
-.roundJamControl {
-  margin: 20px;
-  font-size: 1.5rem;
-}
+  .roundJamControl {
+    margin: 20px;
+    font-size: 1.5rem;
+  }
 
-.buttons {
-   
-}
+  .buttons {
 
-button {
+  }
+
+  button {
     padding: 8px 12px;
     font-family: var(--standard-font), sans-serif;
     font-size: 1rem;
@@ -251,34 +253,34 @@ button {
     border: 2px solid #303030;
     color: #ffffff;
     cursor: pointer;
-}
+  }
 
-button:hover {
-  background-color: #ffffff;
-  color: #303030;
-}
-button#resetTeamName, button#resetScore {
-  background-color: #ffffff;
-  color: #eb2828;
-}
-button#resetTeamName:hover, button#resetScore:hover {
-  background-color: #eb2828;
-  color: #ffffff;
-  border-color: #ffffff;
-}
+  button:hover {
+    background-color: #ffffff;
+    color: #303030;
+  }
+  button#resetTeamName, button#resetScore {
+    background-color: #ffffff;
+    color: #eb2828;
+  }
+  button#resetTeamName:hover, button#resetScore:hover {
+    background-color: #eb2828;
+    color: #ffffff;
+    border-color: #ffffff;
+  }
 
-.other {
+  .other {
     text-align: center;
-}
+  }
 
-.extraButtons {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
-  align-items: baseline;
-  gap: 25px;
-  margin-bottom: 35px;
-}
+  .extraButtons {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: baseline;
+    gap: 25px;
+    margin-bottom: 35px;
+  }
 
 /*input {
   padding: 10px;
@@ -307,10 +309,10 @@ input:not(textarea) {
   line-height: 1;
   height: 2.25rem;
 }*/
-input[type="number"] {
+input[type=number] {
   -webkit-appearance: textfield;
-     -moz-appearance: textfield;
-          appearance: textfield;
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
@@ -359,7 +361,7 @@ input[type=number]::-webkit-outer-spin-button {
   border-radius: 0;
 }
 
-.number-input input[type=number] {
+.number-input input[type=number], #mini-bout-results-wrapper input[type=number] {
   font-family: inherit;
   max-width: 5rem;
   padding: .5rem;
@@ -433,15 +435,124 @@ p {
 
 
 
+/* MINI BOUT RESULTS TAB */
+/* --- Mini-Bout Results Styling --- */
+
+#mini-bout-results-wrapper {
+  background-color: #454545;
+  border-top: 2px solid #9c9c9c;
+  border-bottom: 2px solid #9c9c9c;
+  margin-top: 20px;
+}
+
+#mini-bout-results {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  font-size: 1.6rem;
+}
+
+/* Styling for each individual bout block */
+.mini-bout-block {
+  flex: 1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem; 
+  max-width: 300px;
+}
+
+/* Styling for each team block within a bout */
+.mini-bout-team-block {
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a1a1a;
+}
+
+
+/* MINI BOUT CONTROL TAB */
+
+div#mini-bout-results-wrapper {
+  margin: 5px 0px 25px 0px;
+}
+
+div.mini-bout-controls-block {
+  margin: 5px;
+}
+
+div.mini-bout-controls-team-block {
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+}
+ div#mini-bout-results-wrapper h2 {
+  color: #ffffff;
+  margin: 10px 0px;
+ }
+#mini-bout-results-wrapper button {
+  margin: 10px 0px;
+}
+
+@media (max-width: 1000px) {
+  #mini-bout-results {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .mini-bout-block {
+    width: 100%;
+    background-color: #757575;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 6px 0px;
+    max-width: 800px;
+  }
+}
+
+div.fullScreenMiniBout #mini-bout-results {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    gap: 25px;
+  }
+div.fullScreenMiniBout .mini-bout-block {
+    width: 100%;
+    background-color: #757575;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 6px 0px;
+    max-width: 600px;
+  }
+#mini-bout-results-wrapper.fullScreenMiniBout {
+  background-color: transparent;
+  border-top: none;
+  border-bottom: none;
+  margin: 30px 0 0 0;
+}
+
+.hidden {
+  display: none;
+}
+
+
 /* IMPORT FONTS */
 @font-face {
-    font-family: 'Ozone';
-    src: url('./assets/ozone-font/Ozone-xRRO.ttf') format('truetype');
+  font-family: 'Ozone';
+  src: url('./assets/ozone-font/Ozone-xRRO.ttf') format('truetype');
 }
 
 @font-face {
-    font-family: 'Timessquare';
-    src: url('./assets/times-square-font/ts.ttf') format('truetype');
+  font-family: 'Timessquare';
+  src: url('./assets/times-square-font/ts.ttf') format('truetype');
 }
 
 @font-face {
@@ -463,14 +574,14 @@ p {
 @media (max-width: 800px) {
 
   div.teamLogo img {
-  max-height: 150px;
-}
+    max-height: 150px;
+  }
   #team1-score, #team2-score {
-  font-size: 3rem;
-}
+    font-size: 3rem;
+  }
   .team {
-    
-}
+
+  }
   .teamgrid {
     gap: 10px;
   }
