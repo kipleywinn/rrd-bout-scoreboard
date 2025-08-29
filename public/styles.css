@@ -450,7 +450,7 @@ p {
   flex-direction: row;
   width: 100%;
   justify-content: space-evenly;
-  font-size: 1.6rem;
+  font-size: 2rem; /* CHANGE FONT SIZE OF RESULTS BLOCKS */
 }
 
 /* Styling for each individual bout block */
@@ -463,7 +463,7 @@ p {
   align-items: center;
   justify-content: center;
   gap: .5rem; 
-  max-width: 300px;
+  max-width: 350px; /* CHANGE WIDTH OF RESULTS BLOCKS */
 }
 
 /* Styling for each team block within a bout */
