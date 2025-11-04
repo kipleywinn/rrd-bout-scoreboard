@@ -1,8 +1,9 @@
 {
-  "homeName": "Riotmakers",
-  "awayName": "Thrash Pandas",
-  "team1Score": "0",
-  "team2Score": 0,
+  "team1Score": 3,
+  "team2Score": "1",
+  "team3Score": 2,
+  "team4Score": 1,
+  "team5Score": 4,
   "roundNum": 1,
   "jamNum": 1
 }

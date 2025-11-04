@@ -15,32 +15,67 @@
   --purple: #6C4B94;
   --green: #3CB54A;
   --yellow: #F9ED11;
+  --blade: #050808;
+  --true-blood: #7f2f32;
+  --twilight: #9b780d;
+  --vampire-chronicles: #0d2671;
+  --wwdits: #0f470f;
   --number-font: "A Love of Thunder";
   --header-font: "Rock It";
   --standard-font: "Viga";
 }
 
 body {
-    background-color: #262626;
+    /*background-color: #262626;*/
+    background-color: #4c4c4c;
     font-family: var(--standard-font), sans-serif;
     margin: 0;
     padding: 0;
 }
 
 /* DISPLAY STYLES */
+
+
+
+
+
+#coffin-logos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    height: 80vh;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+}
+.coffin-logo {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    max-width: 200px;
+}
+.coffin-logo img {
+    width: 100%;
+}
+
+#chart-wrapper-div {
+    width: 80%;
+    height: 80vh;
+}
+
 .scoreboard {
     display: flex;
-    flex-flow: row wrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
     justify-content: center;
-    /*width: 90%;
-    height: 700px;
-    background-color: #303030;
-    box-shadow: 10px 10px #96a9a7;
-    color: white;
-    margin: 10px auto;
-    padding: 10px;
-    position: relative;*/
 }
+
+
+
+
+
+
+
 
 .teamgrid {
     /*margin: 0 auto;*/
@@ -117,9 +152,9 @@ h1, h2, h3, h4 {
   max-height: 100px;
 }
 
-.display-header h1 {
-  font-size: 3.5rem;
-}
+/*.display-header h1 {*/
+/*  font-size: 3.5rem;*/
+/*}*/
 .display-header h2 {
   font-size: 1rem;
 }
@@ -159,8 +194,9 @@ div#roundNumDisplay, div#jamNumDisplay {
     /*left: 0;
     height: 30%;*/
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: row wrap;
     align-items: center;
+    justify-content: center;
     padding: 5px;
     margin-bottom: 15px;
 }
@@ -169,9 +205,10 @@ div#roundNumDisplay, div#jamNumDisplay {
     /*background-color: #eb2828;*/
     align-items: center;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     justify-content: space-evenly;
     padding: 5px;
+    gap: 5px;
 }
 
 .scoreBoardSetterA, .scoreBoardSetterB {
@@ -183,25 +220,24 @@ div#roundNumDisplay, div#jamNumDisplay {
     gap: 10px;
     border: 2px solid black;
     border-radius: 10px;
-    min-width: 235px;
+    min-width: 275px;
+    color: #ffffff;
 }
-.scoreBoardSetterA.purpleback {
-  background-color: var(--purple);
+
+.scoreBoardSetterB.blade {
+  background-color: var(--blade);
 }
-.scoreBoardSetterA.greenback {
-  background-color: var(--green);
+.scoreBoardSetterB.true-blood {
+  background-color: var(--true-blood);
 }
-.scoreBoardSetterA.yellowback {
-  background-color: var(--yellow);
+.scoreBoardSetterB.twilight {
+  background-color: var(--twilight);
 }
-.scoreBoardSetterB.purpleback {
-  background-color: var(--purple);
+.scoreBoardSetterB.vampire-chronicles {
+    background-color: var(--vampire-chronicles);
 }
-.scoreBoardSetterB.greenback {
-  background-color: var(--green);
-}
-.scoreBoardSetterB.yellowback {
-  background-color: var(--yellow);
+.scoreBoardSetterB.wwdits {
+    background-color: var(--wwdits);
 }
 
 .scoreBoardMisc {
@@ -210,6 +246,7 @@ div#roundNumDisplay, div#jamNumDisplay {
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-top: 25px;
 }
 
 .teamNameSetter, .roundJamControl {
@@ -217,7 +254,7 @@ div#roundNumDisplay, div#jamNumDisplay {
     display: flex;
     flex-flow: column wrap;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-end;
     align-content: space-around;
     gap: 10px;
     padding: 10px;
@@ -347,14 +384,14 @@ input[type=number]::-webkit-outer-spin-button {
   content: '';
   width: 1rem;
   height: 2px;
-  background-color: #212121;
+  background-color: #ffffff;
   transform: translate(-50%, -50%);
 }
 .number-input button.plus:after {
   transform: translate(-50%, -50%) rotate(90deg);
 }
 .number-input button:hover {
-  background-color: #ffffff;
+  background-color: #000000;
   opacity: 60%;
   border-radius: 0;
 }

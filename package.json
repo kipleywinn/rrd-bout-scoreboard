@@ -12,6 +12,7 @@
   },
   "homepage": "https://github.com/verren5/basketball-scoreboard#readme",
   "dependencies": {
+    "chart.js": "^4.5.1",
     "express": "^4.21.2",
     "ws": "^8.18.1"
   },

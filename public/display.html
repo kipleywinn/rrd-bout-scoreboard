@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Scoreboard Display</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
   </head>
   <body>
     <div class="display-header">
@@ -24,46 +27,29 @@
       </div>
     </div>
     <div class="scoreboard">
-      <div class="teamgrid">
-        <div id="team1Section" class="team">
-          <div class="teamLogo" id="team1Logo"></div>
-          <h2 id="team1-name">Team 1</h2>
-          <h1 id="team1-score">0</h1>
+
+      <div id="coffin-logos">
+        <div class="coffin-logo">
+          <img id="blade" src="/images/blade-coffin.png" alt="Blade" />
         </div>
-
-        <!--div class="center-section">
-          <div class="timer-box">
-            <div class="time">
-              <h3 id="timerDisp">00:00</h3>
-            </div>
-          </div>
-          <img src="./assets/logo.png" alt="Logo" class="logo" />
-          <div class="shotclock-box">
-            <div class="shotClock">
-              <h4 id="shotClockDisp">24</h4>
-            </div>
-          </div>
-        </div-->
-
-        <div id="team2Section"  class="team">
-          <div class="teamLogo" id="team2Logo"></div>
-          <h2 id="team2-name">Team 2</h2>
-          <h1 id="team2-score">0</h1>
+        <div class="coffin-logo">
+          <img id="true-blood" src="/images/true-blood-coffin.png" alt="True Blood" />
+        </div>
+        <div class="coffin-logo">
+          <img id="twilight" src="/images/twilight-coffin.png" alt="Twilight" />
+        </div>
+        <div class="coffin-logo">
+          <img id="vampire-chronicles" src="/images/vampire-chronicles-coffin.png" alt="Vampire Chronicles" />
+        </div>
+        <div class="coffin-logo">
+          <img id="wwdits" src="/images/wwdits-coffin.png" alt="What We Do In The Shadows" />
         </div>
       </div>
+
+      <div id="chart-wrapper-div"><canvas id="vamparty-scores"></canvas></div>
+
     </div>
-        <!--div>
-          <h4>
-            Secret Timer
-          </h4>
-          <div class="timer-box">
-            <div class="time">
-              <h3 id="timerDisp">00:00</h3>
-            </div>
-          </div>
-        </div-->
-    <script type="module" src="timer.js"></script>
-    <script type="module" src="shot-clock.js"></script>
-    <script type="module" src="display.js"></script>
+
+    <script src="display.js"></script>
   </body>
 </html>
