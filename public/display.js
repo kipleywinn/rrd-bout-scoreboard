@@ -243,6 +243,9 @@ const initChart = () => {
           },
           grid: {
             display: false
+          },
+          border: {
+            display: false
           }
         },
         y: {
@@ -255,6 +258,9 @@ const initChart = () => {
             }
           },
           grid: {
+            display: false
+          },
+          border: {
             display: false
           }
         }
