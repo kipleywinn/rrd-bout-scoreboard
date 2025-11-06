@@ -84,18 +84,18 @@ const initWebSocket = () => {
     let scoreChanged = false;
 
     // Update scores and set flag
-    if (data.type == "team1Point") { team1Score = data.team1Score; scoreChanged = true; }
-    if (data.type == "team2Point") { team2Score = data.team2Score; scoreChanged = true; }
-    if (data.type == "team3Point") { team3Score = data.team3Score; scoreChanged = true; }
-    if (data.type == "team4Point") { team4Score = data.team4Score; scoreChanged = true; }
-    if (data.type == "team5Point") { team5Score = data.team5Score; scoreChanged = true; }
+    if (data.type === "team1Point") { team1Score = data.team1Score; scoreChanged = true; }
+    if (data.type === "team2Point") { team2Score = data.team2Score; scoreChanged = true; }
+    if (data.type === "team3Point") { team3Score = data.team3Score; scoreChanged = true; }
+    if (data.type === "team4Point") { team4Score = data.team4Score; scoreChanged = true; }
+    if (data.type === "team5Point") { team5Score = data.team5Score; scoreChanged = true; }
 
     // Update display elements (if they exist in the HTML)
     const roundEl = document.getElementById("roundNumDisplay");
-    if (data.type == "roundNum" && roundEl) roundEl.innerText = data.roundNum;
+    if (data.type === "roundNum" && roundEl) roundEl.innerText = data.roundNum;
 
     const jamEl = document.getElementById("jamNumDisplay");
-    if (data.type == "jamNum" && jamEl) jamEl.innerText = data.jamNum;
+    if (data.type === "jamNum" && jamEl) jamEl.innerText = data.jamNum;
 
     if (data.type === 'pong') {
       console.log('Received pong from server');

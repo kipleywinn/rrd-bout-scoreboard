@@ -1,9 +1,9 @@
 {
-  "team1Score": 3,
-  "team2Score": "1",
-  "team3Score": 2,
-  "team4Score": 1,
-  "team5Score": 4,
+  "team1Score": 0,
+  "team2Score": 0,
+  "team3Score": 0,
+  "team4Score": 0,
+  "team5Score": 0,
   "roundNum": 1,
   "jamNum": 1
 }
