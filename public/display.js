@@ -18,7 +18,7 @@ function getMaxScore() {
   const maxScore = Math.max(...scores);
   // Ensure the scale is at least 20 if all scores are low, otherwise add 10% padding to the max score
   // return Math.max(10, maxScore * 1.1);
-  return (maxScore + 0);
+  return maxScore;
 }
 
 /**
