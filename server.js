@@ -8,11 +8,29 @@ const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.json()); // Add middleware to parse JSON requests
+// Default data for a fresh start
+const DEFAULT_DATA = {
+  team1Name: "Payback",
+  team2Name: "First Blood",
+  team3Name: "Street Fight",
+  team1Score: 0,
+  team2Score: 0,
+  team3Score: 0,
+  roundNum: 1,
+  jamNum: 1,
+};
 
-// Define routes for your HTML pages
+const DATA_FILE = path.join(__dirname, "recentData.json");
+
+// Seed recentData.json if it doesn't exist
+if (!fs.existsSync(DATA_FILE)) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(DEFAULT_DATA, null, 2));
+  console.log("Created default recentData.json");
+}
+
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/display.html"));
 });
@@ -21,26 +39,11 @@ app.get("/control", (req, res) => {
   res.sendFile(path.join(__dirname, "public/control.html"));
 });
 
-/*app.post('/write-json', (req, res) => {
-  let data = req.body;
-  const filePath = path.join(__dirname, 'recentData.json');
-  
-  fs.writeFile(filePath, JSON.stringify(data), (err) => {
-    if (err) console.log(err);
-    else {
-        console.log("File written successfully\n");
-        console.log("The written file has the following contents:");
-        console.log(fs.readFileSync(filePath, "utf8"));
-    };
-});*/
-
 app.post("/saveData", (req, res) => {
-  const jsonData = req.body; // Access JSON data from request body
-  console.log(jsonData);
-  const filePath = path.join(__dirname, "recentData.json");
+  const jsonData = req.body;
+  console.log("Saving data:", jsonData);
 
-  console.log(filePath);
-  fs.writeFile(filePath, JSON.stringify(jsonData, null, 2), (err) => {
+  fs.writeFile(DATA_FILE, JSON.stringify(jsonData, null, 2), (err) => {
     if (err) {
       console.error("Error writing to file:", err);
       return res.status(500).json({ error: "Failed to save data." });
@@ -49,22 +52,18 @@ app.post("/saveData", (req, res) => {
     res.json({ message: "Data saved successfully." });
   });
 });
-// New route to serve recentData.json
-app.get('/api/recentData', (req, res) => {
-  const filePath = path.join(__dirname, 'recentData.json');
 
-  fs.readFile(filePath, 'utf8', (err, data) => {
+app.get("/api/recentData", (req, res) => {
+  fs.readFile(DATA_FILE, "utf8", (err, data) => {
     if (err) {
-      console.error('Error reading file:', err);
-      return res.status(500).json({ error: 'Failed to read data.' });
+      console.error("Error reading file:", err);
+      return res.status(500).json({ error: "Failed to read data." });
     }
-
     try {
-      const jsonData = JSON.parse(data);
-      res.json(jsonData);
+      res.json(JSON.parse(data));
     } catch (parseError) {
-      console.error('Error parsing JSON:', parseError);
-      return res.status(500).json({ error: 'Invalid JSON data.' });
+      console.error("Error parsing JSON:", parseError);
+      return res.status(500).json({ error: "Invalid JSON data." });
     }
   });
 });
@@ -72,19 +71,15 @@ app.get('/api/recentData', (req, res) => {
 // WebSocket server
 wss.on("connection", (ws) => {
   console.log("Client connected");
-  
-  // Send recentData.json to the newly connected client
-  const filePath = path.join(__dirname, "recentData.json");
-  fs.readFile(filePath, "utf8", (err, data) => {
+
+  // Send current state to newly connected client
+  fs.readFile(DATA_FILE, "utf8", (err, data) => {
     if (err) {
       console.error("Error reading recentData.json:", err);
     } else {
       try {
         const jsonData = JSON.parse(data);
-        ws.send(JSON.stringify({
-          type: "initialData",
-          payload: jsonData
-        }));
+        ws.send(JSON.stringify({ type: "initialData", payload: jsonData }));
       } catch (parseErr) {
         console.error("Error parsing recentData.json:", parseErr);
       }
@@ -93,20 +88,19 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (message) => {
     try {
-    const data = JSON.parse(message); // Parse the message
+      const data = JSON.parse(message);
 
-    if (data.type === 'ping') { // Check the `type` field in the parsed data
-      console.log("Received ping from client");
-      // Respond with a pong message
-      ws.send(JSON.stringify({ type: 'pong' }));
+      if (data.type === "ping") {
+        console.log("Received ping from client");
+        ws.send(JSON.stringify({ type: "pong" }));
+      }
+    } catch (error) {
+      console.error("Error parsing message:", error);
     }
-  } catch (error) {
-    console.error("Error parsing message:", error);
-  }
-    
-    console.log("Received message:", message);
 
-    // Broadcast received message to all clients
+    console.log("Received message:", message.toString());
+
+    // Broadcast to all connected clients
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(message);
