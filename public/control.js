@@ -80,9 +80,9 @@ function fetchData() {
 }
 
 function useData(data) {
-  team1Score = parseInt(data.team1Score) || 0;
-  team2Score = parseInt(data.team2Score) || 0;
-  team3Score = parseInt(data.team3Score) || 0;
+  team1Score = parseFloat(data.team1Score) || 0;
+  team2Score = parseFloat(data.team2Score) || 0;
+  team3Score = parseFloat(data.team3Score) || 0;
 
   team1Name = data.team1Name || "Payback";
   team2Name = data.team2Name || "First Blood";
@@ -106,15 +106,15 @@ function useData(data) {
 
 function overrideScore(team) {
   if (team === 1) {
-    team1Score = parseInt(document.getElementById("override-team1-score-input").value);
+    team1Score = parseFloat(document.getElementById("override-team1-score-input").value);
     socket.send(JSON.stringify({ type: "team1Point", team1Score }));
   }
   if (team === 2) {
-    team2Score = parseInt(document.getElementById("override-team2-score-input").value);
+    team2Score = parseFloat(document.getElementById("override-team2-score-input").value);
     socket.send(JSON.stringify({ type: "team2Point", team2Score }));
   }
   if (team === 3) {
-    team3Score = parseInt(document.getElementById("override-team3-score-input").value);
+    team3Score = parseFloat(document.getElementById("override-team3-score-input").value);
     socket.send(JSON.stringify({ type: "team3Point", team3Score }));
   }
   writeTheData();
