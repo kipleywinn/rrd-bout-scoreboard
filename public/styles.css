@@ -43,13 +43,13 @@ body {
 }
 
 .teamgrid {
-  width: 70%;
+  width: 85%;
   max-width: 1800px;
   margin: 0 auto;
-  padding: 20px 40px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
 }
 
 .team {
