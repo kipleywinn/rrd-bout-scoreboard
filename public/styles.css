@@ -66,8 +66,7 @@ body {
     max-height: 300px;
   }
   #team1-score, #team2-score {
-    /*font-size: 8em; put this back after mini bout div is gone */
-    font-size: 7em;
+    font-size: 8em;
     background-color: #000000;
     padding: 0 3rem;
     border-radius: 10px;
@@ -213,6 +212,8 @@ div#roundNumDisplay, div#jamNumDisplay {
     justify-content: center;
     align-items: center;
     width: 100%;
+    gap: 10px;
+    margin-top: 8px;
   }
 
   .teamNameSetter, .roundJamControl {
@@ -268,6 +269,17 @@ div#roundNumDisplay, div#jamNumDisplay {
     background-color: #eb2828;
     color: #ffffff;
     border-color: #ffffff;
+  }
+  button#boutOver {
+    background-color: var(--green);
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  button#boutOver:hover {
+    background-color: #ffffff;
+    color: var(--green);
+    border-color: var(--green);
   }
 
   .other {
@@ -590,4 +602,238 @@ div.fullScreenMiniBout .mini-bout-block {
     font-size: 1rem;
   }
   
+}
+
+
+/* =========================================================
+   DISPLAY PAGE ONLY — live ticker + between-bout scorelines
+   Control page keeps the original stacked input cards.
+   ========================================================= */
+
+body.display-page #team1Section,
+body.display-page #team2Section {
+  padding-bottom: 20px;
+  border-bottom: 8px solid transparent;
+}
+
+body.display-page #team1Section.purple,
+body.display-page #team2Section.purple {
+  border-bottom-color: var(--purple);
+}
+body.display-page #team1Section.yellow,
+body.display-page #team2Section.yellow {
+  border-bottom-color: var(--yellow);
+}
+body.display-page #team1Section.green,
+body.display-page #team2Section.green {
+  border-bottom-color: var(--green);
+}
+
+/* Live game: only completed pairings (not 0-0). Designed for 1 or 2 cards. */
+body.display-page #mini-bout-results-wrapper {
+  display: none;
+  background: transparent;
+  border: none;
+  margin: 28px auto 20px;
+  max-width: 1600px;
+  padding: 0 32px;
+}
+
+body.display-page #mini-bout-results-wrapper.has-completed,
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout {
+  display: block;
+}
+
+body.display-page #mini-bout-results {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  gap: 32px;
+  width: 100%;
+  font-size: 2.6rem;
+}
+
+body.display-page #mini-bout-results-wrapper.results-count-1 #mini-bout-results {
+  max-width: 980px;
+  margin: 0 auto;
+  font-size: 3.2rem;
+}
+
+body.display-page #mini-bout-results-wrapper.results-count-2 #mini-bout-results {
+  font-size: 2.8rem;
+}
+
+body.display-page .mini-bout-block.is-unplayed {
+  display: none;
+}
+
+body.display-page .mini-bout-block {
+  flex: unset;
+  max-width: none;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+  padding: 14px 16px;
+  background: #1a1a1a;
+  border-radius: 10px;
+}
+
+body.display-page .mini-bout-team-block {
+  background: transparent;
+  padding: 0;
+  width: auto;
+  flex: 1;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+body.display-page .mini-bout-block > .mini-bout-team-block:last-of-type {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+body.display-page .mini-bout-team-name {
+  font-family: var(--standard-font), sans-serif;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+body.display-page .mini-bout-team-name .name-full {
+  display: none;
+}
+
+body.display-page .mini-bout-team-name .name-short {
+  display: inline;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-team-name .name-full {
+  display: inline;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-team-name .name-short {
+  display: none;
+}
+
+body.display-page .mini-bout-team-score {
+  font-family: var(--number-font), sans-serif;
+  font-size: 1.85em;
+  min-width: 1.35em;
+  text-align: center;
+  color: #fff;
+  line-height: 1;
+}
+
+body.display-page .mini-bout-team-block.green .mini-bout-team-name { color: var(--green); }
+body.display-page .mini-bout-team-block.purple .mini-bout-team-name { color: var(--purple); }
+body.display-page .mini-bout-team-block.yellow .mini-bout-team-name { color: var(--yellow); }
+
+body.display-page .mini-bout-team-block.green {
+  border-left: 6px solid var(--green);
+  padding-left: 10px;
+}
+body.display-page .mini-bout-block > .mini-bout-team-block:last-of-type.green {
+  border-left: none;
+  border-right: 6px solid var(--green);
+  padding-left: 0;
+  padding-right: 10px;
+}
+body.display-page .mini-bout-team-block.purple {
+  border-left: 6px solid var(--purple);
+  padding-left: 10px;
+}
+body.display-page .mini-bout-block > .mini-bout-team-block:last-of-type.purple {
+  border-left: none;
+  border-right: 6px solid var(--purple);
+  padding-left: 0;
+  padding-right: 10px;
+}
+body.display-page .mini-bout-team-block.yellow {
+  border-left: 6px solid var(--yellow);
+  padding-left: 10px;
+}
+body.display-page .mini-bout-block > .mini-bout-team-block:last-of-type.yellow {
+  border-left: none;
+  border-right: 6px solid var(--yellow);
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+body.display-page .mini-bout-vs {
+  color: #8a8a8a;
+  font-family: var(--number-font), sans-serif;
+  font-size: 1.5em;
+  padding: 0 0.25rem;
+  flex: 0 0 auto;
+}
+
+/* Between-bouts / end-of-night: gym-readable stacked scorelines */
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout {
+  background: transparent;
+  border: none;
+  margin: 28px 40px 0;
+  max-width: none;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-block {
+  order: 1;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-block.is-unplayed {
+  display: flex;
+  opacity: 0.45;
+  order: 2;
+}
+
+body.display-page.fullScreenMiniBout #mini-bout-results,
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout #mini-bout-results {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 36px;
+  font-size: 4.6rem;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-block {
+  background: #141414;
+  border-radius: 16px;
+  padding: 28px 36px;
+  max-width: none;
+  margin: 0;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-team-name {
+  font-size: 0.95em;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-team-score {
+  font-size: 2em;
+  min-width: 1.5em;
+  color: #fff;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-vs {
+  font-size: 1.5em;
+  padding: 0 0.8rem;
+  color: #666;
+}
+
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-team-block.green,
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-team-block.purple,
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-team-block.yellow {
+  border-left-width: 14px;
+}
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-block > .mini-bout-team-block:last-of-type.green,
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-block > .mini-bout-team-block:last-of-type.purple,
+body.display-page #mini-bout-results-wrapper.fullScreenMiniBout .mini-bout-block > .mini-bout-team-block:last-of-type.yellow {
+  border-right-width: 14px;
+}
+
+@media (max-width: 1000px) {
+  body.display-page #mini-bout-results {
+    grid-template-columns: 1fr;
+  }
 }

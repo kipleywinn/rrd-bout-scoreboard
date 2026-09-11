@@ -6,7 +6,7 @@
   <title>Scoreboard Display</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="display-page">
   <div class="display-header">
     <div class="miniBoutHide">
       <h1>
@@ -31,112 +31,59 @@
         <h1 id="team1-score">0</h1>
       </div>
 
-        <!--div class="center-section">
-          <div class="timer-box">
-            <div class="time">
-              <h3 id="timerDisp">00:00</h3>
-            </div>
-          </div>
-          <img src="./assets/logo.png" alt="Logo" class="logo" />
-          <div class="shotclock-box">
-            <div class="shotClock">
-              <h4 id="shotClockDisp">24</h4>
-            </div>
-          </div>
-        </div-->
-
-        <div id="team2Section"  class="team">
-          <div class="teamLogo" id="team2Logo"></div>
-          <h2 id="team2-name">Team 2</h2>
-          <h1 id="team2-score">0</h1>
-        </div>
+      <div id="team2Section" class="team">
+        <div class="teamLogo" id="team2Logo"></div>
+        <h2 id="team2-name">Team 2</h2>
+        <h1 id="team2-score">0</h1>
       </div>
     </div>
+  </div>
 
-
-    <div id="mini-bout-results-wrapper">
-     <div id="mini-bout-results">
+  <div id="mini-bout-results-wrapper">
+    <div id="mini-bout-results">
       <!-- Bout 1 -->
       <div id="mini-bout-rm-xf" class="mini-bout-block">
-        <!-- Team 1 block -->
         <div class="mini-bout-team-block green">
-          <div class="mini-bout-team-name">
-            Riotmakers
-          </div>
-          <div id="rmxfrm" class="mini-bout-team-score">
-            0
-          </div>
+          <div class="mini-bout-team-name"><span class="name-full">Riotmakers</span><span class="name-short">RM</span></div>
+          <div id="rmxfrm" class="mini-bout-team-score">0</div>
         </div>
-        <!-- Team 2 block -->
+        <div class="mini-bout-vs" aria-hidden="true">–</div>
         <div class="mini-bout-team-block yellow">
-          <div class="mini-bout-team-name">
-            X Force
-          </div>
-          <div id="rmxfxf" class="mini-bout-team-score">
-            0
-          </div>
+          <div class="mini-bout-team-name"><span class="name-full">X Force</span><span class="name-short">XF</span></div>
+          <div id="rmxfxf" class="mini-bout-team-score">0</div>
         </div>
       </div>
 
       <!-- Bout 2 -->
       <div id="mini-bout-rm-tp" class="mini-bout-block">
-        <!-- Team 1 block -->
         <div class="mini-bout-team-block green">
-          <div class="mini-bout-team-name">
-            Riotmakers
-          </div>
-          <div id="rmtprm" class="mini-bout-team-score">
-            0
-          </div>
+          <div class="mini-bout-team-name"><span class="name-full">Riotmakers</span><span class="name-short">RM</span></div>
+          <div id="rmtprm" class="mini-bout-team-score">0</div>
         </div>
-        <!-- Team 2 block -->
+        <div class="mini-bout-vs" aria-hidden="true">–</div>
         <div class="mini-bout-team-block purple">
-          <div class="mini-bout-team-name">
-            Thrash Pandas
-          </div>
-          <div id="rmtptp" class="mini-bout-team-score">
-            0
-          </div>
+          <div class="mini-bout-team-name"><span class="name-full">Thrash Pandas</span><span class="name-short">TP</span></div>
+          <div id="rmtptp" class="mini-bout-team-score">0</div>
         </div>
       </div>
 
       <!-- Bout 3 -->
       <div id="mini-bout-tp-xf" class="mini-bout-block">
-        <!-- Team 1 block -->
         <div class="mini-bout-team-block purple">
-          <div class="mini-bout-team-name">
-            Thrash Pandas
-          </div>
-          <div id="tpxftp" class="mini-bout-team-score">
-            0
-          </div>
+          <div class="mini-bout-team-name"><span class="name-full">Thrash Pandas</span><span class="name-short">TP</span></div>
+          <div id="tpxftp" class="mini-bout-team-score">0</div>
         </div>
-        <!-- Team 2 block -->
+        <div class="mini-bout-vs" aria-hidden="true">–</div>
         <div class="mini-bout-team-block yellow">
-          <div class="mini-bout-team-name">
-            X Force
-          </div>
-          <div id="tpxfxf" class="mini-bout-team-score">
-            0
-          </div>
+          <div class="mini-bout-team-name"><span class="name-full">X Force</span><span class="name-short">XF</span></div>
+          <div id="tpxfxf" class="mini-bout-team-score">0</div>
         </div>
       </div>
     </div>
   </div>
 
-
-        <!--div>
-          <h4>
-            Secret Timer
-          </h4>
-          <div class="timer-box">
-            <div class="time">
-              <h3 id="timerDisp">00:00</h3>
-            </div>
-          </div>
-        </div-->
-        <script type="module" src="timer.js"></script>
-        <script type="module" src="shot-clock.js"></script>
-        <script type="module" src="display.js"></script>
-      </body>
-      </html>
+  <script type="module" src="timer.js"></script>
+  <script type="module" src="shot-clock.js"></script>
+  <script type="module" src="display.js"></script>
+</body>
+</html>
