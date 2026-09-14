@@ -1,40 +1,112 @@
-// const socket = new WebSocket(`wss://${window.location.host}`);
+let wsProtocol = "ws:";
+let wsHost = window.location.host;
 
-let wsProtocol = "ws:"; // Default to unsecure WebSocket for development
-let wsHost = window.location.host; // Use the current page's host (e.g., localhost:3000 or your-domain.com)
-
-// If the page itself is loaded over HTTPS, use wss for the WebSocket
 if (window.location.protocol === "https:") {
-    wsProtocol = "wss:";
+  wsProtocol = "wss:";
 }
 
-// Construct the full WebSocket URL
 const wsUrl = `${wsProtocol}//${wsHost}`;
 
-const socket = new WebSocket(wsUrl);
+let socket = null;
+let reconnectTimer = null;
+let reconnectDelay = 1000;
+const MAX_RECONNECT_DELAY = 15000;
 
-socket.onopen = () => {
-  console.log("WebSocket connection established");
-};
-
-socket.onerror = (error) => {
-  console.error("WebSocket Error: ", error);
-};
-
-socket.onclose = () => {
-  console.log("WebSocket connection closed");
-};
-
-socket.onmessage = function (event) {
-  console.log("Data from server: ", event.data);
-};
-
-// Keepalive ping every 25 seconds
-setInterval(() => {
-  if (socket.readyState === WebSocket.OPEN) {
-    socket.send(JSON.stringify({ type: "ping" }));
+function clearReconnectTimer() {
+  if (reconnectTimer) {
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
   }
-}, 25000); // 25 seconds
+}
+
+function scheduleReconnect() {
+  if (reconnectTimer) return;
+  const delay = reconnectDelay;
+  reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
+  console.log(`Reconnecting control WebSocket in ${delay}ms`);
+  reconnectTimer = setTimeout(() => {
+    reconnectTimer = null;
+    connectWebSocket();
+  }, delay);
+}
+
+function connectWebSocket() {
+  if (
+    socket &&
+    (socket.readyState === WebSocket.OPEN ||
+      socket.readyState === WebSocket.CONNECTING)
+  ) {
+    return;
+  }
+
+  console.log("Connecting control WebSocket to", wsUrl);
+  socket = new WebSocket(wsUrl);
+
+  socket.onopen = () => {
+    console.log("WebSocket connection established");
+    reconnectDelay = 1000;
+    clearReconnectTimer();
+  };
+
+  socket.onerror = (error) => {
+    console.error("WebSocket Error: ", error);
+  };
+
+  socket.onclose = () => {
+    console.log("WebSocket connection closed");
+    scheduleReconnect();
+  };
+
+  socket.onmessage = function (event) {
+    console.log("Data from server: ", event.data);
+  };
+}
+
+function ensureConnected() {
+  if (
+    !socket ||
+    socket.readyState === WebSocket.CLOSED ||
+    socket.readyState === WebSocket.CLOSING
+  ) {
+    clearReconnectTimer();
+    reconnectDelay = 1000;
+    connectWebSocket();
+  }
+}
+
+function sendJson(payload) {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify(payload));
+    return true;
+  }
+  console.warn("WebSocket not connected; skipped send", payload);
+  ensureConnected();
+  return false;
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    ensureConnected();
+  }
+});
+
+window.addEventListener("online", () => {
+  ensureConnected();
+});
+
+window.addEventListener("focus", () => {
+  ensureConnected();
+});
+
+connectWebSocket();
+
+setInterval(() => {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ type: "ping" }));
+  } else if (document.visibilityState === "visible") {
+    ensureConnected();
+  }
+}, 25000);
 
 
 // new function writing to JSON to store current data?
@@ -99,48 +171,36 @@ function useData(data) {
   roundNum = parseInt(data.roundNum);
   jamNum = parseInt(data.jamNum);
 
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "team1Point",
       team1Score,
-    })
-  );
+    });
 
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "team2Point",
       team2Score,
-    })
-  );
+    });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "roundNum",
       roundNum,
-    })
-  );
+    });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "jamNum",
       jamNum,
-    })
-  );
+    });
 
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "updateName1",
       team1Name: homeName,
-    })
-  );
+    });
   document.getElementById("display-team1-name-controls").innerHTML = homeName;
 
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "updateName2",
       team2Name: awayName,
-    })
-  );
+    });
   document.getElementById("display-team2-name-controls").innerHTML = awayName;
 
   document.getElementById("override-team1-score-input").value = team1Score;
@@ -200,28 +260,24 @@ function updateScoreboard() {
     shotClockTimer: document.getElementById("shotClockTimer").innerText,
   };
   console.log("Sending update:", data);
-  socket.send(JSON.stringify(data));
+  sendJson(data);
 }
 
 // Override score totals and manually set score
 function overrideScore(team) {
   if (team === 1) {
     team1Score = document.getElementById("override-team1-score-input").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "team1Point",
         team1Score,
-      })
-    );
+      });
   }
   if (team === 2) {
     team2Score = document.getElementById("override-team2-score-input").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "team2Point",
         team2Score,
-      })
-    );
+      });
   }
   writeTheData();
 }
@@ -231,22 +287,18 @@ function overrideRoundJam(item) {
   // item 1 is round
   if (item === 1) {
     roundNum = document.getElementById("roundNum").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "roundNum",
         roundNum,
-      })
-    );
+      });
   }
   // item 2 is jam
   if (item === 2) {
     jamNum = document.getElementById("jamNum").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "jamNum",
         jamNum,
-      })
-    );
+      });
   }
   writeTheData();
 }
@@ -257,33 +309,25 @@ function resetScore() {
   team2Score = 0;
   roundNum = 1;
   jamNum = 1;
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "team1Point",
       team1Score,
-    })
-  );
+    });
 
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "team2Point",
       team2Score,
-    })
-  );
+    });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "roundNum",
       roundNum,
-    })
-  );
+    });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "jamNum",
       jamNum,
-    })
-  );
+    });
   
   document.getElementById("override-team1-score-input").value = team1Score;
   document.getElementById("override-team2-score-input").value = team2Score;
@@ -314,12 +358,10 @@ function updateTeamName(team) {
       } else {
         console.error("No display name");
       }
-      socket.send(
-        JSON.stringify({
+      sendJson({
           type: "updateName1",
           team1Name: homeName,
-        })
-      );
+        });
     }
   } else if (team === 2) {
     displayName = document.getElementById("display-team2-name-controls");
@@ -339,12 +381,10 @@ function updateTeamName(team) {
         console.error("No display name");
       }
 
-      socket.send(
-        JSON.stringify({
+      sendJson({
           type: "updateName2",
           team2Name: awayName,
-        })
-      );
+        });
     }
   }
   writeTheData();
@@ -363,23 +403,19 @@ function resetTeamName() {
     placeholderTeam1 = homeName;
     document.getElementById("team1-name-input").value = "team1";
     document.getElementById("display-team1-name-controls").innerHTML = homeName;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "updateName1",
         team1Name: placeholderTeam1,
-      })
-    );
+      });
   }
   if (placeholderTeam2) {
     placeholderTeam2 = awayName;
     document.getElementById("team2-name-input").value = "team2";
     document.getElementById("display-team2-name-controls").innerHTML = awayName;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "updateName2",
         team2Name: placeholderTeam2,
-      })
-    );
+      });
   }
 
   document.querySelector(".scoreBoardSetterA").classList.remove("purpleback");
@@ -658,60 +694,60 @@ document.getElementById("team2-name-input").addEventListener("change", () => {
 
 //timer
 /*document.getElementById('startButton').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'start' })); 
+    sendJson({ type: 'start' }); 
 });
 
 document.getElementById('pauseButton').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'pause' })); 
+    sendJson({ type: 'pause' }); 
 });
 
 document.getElementById('resetButton').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'reset' })); 
+    sendJson({ type: 'reset' }); 
 });
 
 document.getElementById('resumeButton').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'resume' })); 
+    sendJson({ type: 'resume' }); 
 });
 document.getElementById('addMinute').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'addMinute' })); 
+    sendJson({ type: 'addMinute' }); 
 });
 document.getElementById('addSecond').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'addSecond' })); 
+    sendJson({ type: 'addSecond' }); 
 });
 document.getElementById('subtractMinute').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'subtractMinute' })); 
+    sendJson({ type: 'subtractMinute' }); 
 });
 document.getElementById('subtractSecond').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'subtractSecond' })); 
+    sendJson({ type: 'subtractSecond' }); 
 });
 
 // shotclock
 /*document.getElementById('startSC').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'startSC' }));
+    sendJson({ type: 'startSC' });
 });
 
 document.getElementById('pauseSC').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'pauseSC' })); 
+    sendJson({ type: 'pauseSC' }); 
 });
 
 document.getElementById('resumeSC').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'resumeSC' })); 
+    sendJson({ type: 'resumeSC' }); 
 });
 
 document.getElementById('resetTo24SC').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'resetTo24SC' })); 
+    sendJson({ type: 'resetTo24SC' }); 
 });
 
 document.getElementById('resetTo14SC').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'resetTo14SC' })); 
+    sendJson({ type: 'resetTo14SC' }); 
 });
 
 document.getElementById('addSecondSC').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'addSecondSC' })); 
+    sendJson({ type: 'addSecondSC' }); 
 });
 
 document.getElementById('subtractSecondSC').addEventListener('click', () => {
-    socket.send(JSON.stringify({ type: 'subtractSecondSC' })); 
+    sendJson({ type: 'subtractSecondSC' }); 
 });*/
 
 window.addEventListener('load', function() {
