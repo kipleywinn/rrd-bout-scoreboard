@@ -177,12 +177,12 @@ function useData(data) {
   roundNum = parseInt(data.roundNum);
   jamNum = parseInt(data.jamNum);
 
-  rmxfrm = parseInt(data.rmxfrm);
-  rmxfxf = parseInt(data.rmxfxf);
-  rmtprm = parseInt(data.rmtprm);
-  rmtptp = parseInt(data.rmtptp);
-  tpxftp = parseInt(data.tpxftp);
-  tpxfxf = parseInt(data.tpxfxf);
+  rmxfrm = toScore(data.rmxfrm);
+  rmxfxf = toScore(data.rmxfxf);
+  rmtprm = toScore(data.rmtprm);
+  rmtptp = toScore(data.rmtptp);
+  tpxftp = toScore(data.tpxftp);
+  tpxfxf = toScore(data.tpxfxf);
 
   sendJson({
       type: "team1Point",
@@ -231,8 +231,6 @@ function useData(data) {
   document.querySelector("#rmtptp input").value = rmtptp;
   document.querySelector("#tpxftp input").value = tpxftp;
   document.querySelector("#tpxfxf input").value = tpxfxf;
-
-
 
   document.getElementById("display-team2-name-controls").innerHTML = awayName;
 
@@ -323,13 +321,24 @@ function overrideScore(team) {
   writeTheData();
 }
 
+function toScore(value) {
+  if (value === "" || value === null || value === undefined) return 0;
+  const n = parseInt(value, 10);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function miniScoreFromInput(selector) {
+  const input = document.querySelector(selector);
+  return toScore(input ? input.value : 0);
+}
+
 function updateMiniBout() {
-  rmxfrm = document.querySelector("#rmxfrm input").value;
-  rmxfxf = document.querySelector("#rmxfxf input").value;
-  rmtprm = document.querySelector("#rmtprm input").value;
-  rmtptp = document.querySelector("#rmtptp input").value;
-  tpxftp = document.querySelector("#tpxftp input").value;
-  tpxfxf = document.querySelector("#tpxfxf input").value;
+  rmxfrm = miniScoreFromInput("#rmxfrm input");
+  rmxfxf = miniScoreFromInput("#rmxfxf input");
+  rmtprm = miniScoreFromInput("#rmtprm input");
+  rmtptp = miniScoreFromInput("#rmtptp input");
+  tpxftp = miniScoreFromInput("#tpxftp input");
+  tpxfxf = miniScoreFromInput("#tpxfxf input");
 
   sendJson({
       type: "miniBout",

@@ -515,18 +515,60 @@ div.mini-bout-controls-team-block {
 }
 
 @media (max-width: 1000px) {
-  #mini-bout-results {
+  body.display-page #mini-bout-results {
     flex-direction: column;
     align-items: center;
     justify-content: center;
   }
-  .mini-bout-block {
+  body.display-page .mini-bout-block {
     width: 100%;
     background-color: #757575;
     border-radius: 10px;
     padding: 20px;
     margin: 6px 0px;
     max-width: 800px;
+  }
+}
+
+/* Control page: compact mini-bout results on phones */
+@media (max-width: 800px) {
+  body.control-page #mini-bout-results-wrapper {
+    margin: 8px 0 16px;
+  }
+
+  body.control-page #mini-bout-results-wrapper h2 {
+    font-size: 1.05rem;
+    margin: 8px 0 4px;
+  }
+
+  body.control-page #mini-bout-results {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    font-size: 0.95rem;
+    gap: 8px;
+    padding: 0 8px 10px;
+  }
+
+  body.control-page .mini-bout-block {
+    width: 100%;
+    max-width: none;
+    padding: 8px;
+    margin: 0;
+    gap: 0.35rem;
+    background-color: #5a5a5a;
+    border-radius: 8px;
+  }
+
+  body.control-page .mini-bout-team-block {
+    padding: 0.35rem 0.5rem;
+  }
+
+  body.control-page #mini-bout-results-wrapper input[type=number] {
+    font-size: 1.1rem;
+    height: 2rem;
+    max-width: 3.4rem;
+    padding: 0.15rem;
   }
 }
 

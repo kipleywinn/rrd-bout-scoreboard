@@ -269,12 +269,12 @@ sock.addEventListener("message", (event) => {
 
         // MINI BOUT data
         if (data.type == "miniBout") {
-          document.getElementById("rmxfrm").innerHTML = data.rmxfrm;
-          document.getElementById("rmxfxf").innerHTML = data.rmxfxf;
-          document.getElementById("rmtprm").innerHTML = data.rmtprm;
-          document.getElementById("rmtptp").innerHTML = data.rmtptp;
-          document.getElementById("tpxftp").innerHTML = data.tpxftp;
-          document.getElementById("tpxfxf").innerHTML = data.tpxfxf;
+          setMiniScore("rmxfrm", data.rmxfrm);
+          setMiniScore("rmxfxf", data.rmxfxf);
+          setMiniScore("rmtprm", data.rmtprm);
+          setMiniScore("rmtptp", data.rmtptp);
+          setMiniScore("tpxftp", data.tpxftp);
+          setMiniScore("tpxfxf", data.tpxfxf);
           refreshCompletedBouts();
         }
 
@@ -445,20 +445,29 @@ function useData(data) {
   document.getElementById("roundNumDisplay").innerText = roundNum;
   document.getElementById("jamNumDisplay").innerText = jamNum;
 
-  document.getElementById("rmxfrm").innerHTML = data.rmxfrm;
-  document.getElementById("rmxfxf").innerHTML = data.rmxfxf;
-  document.getElementById("rmtprm").innerHTML = data.rmtprm;
-  document.getElementById("rmtptp").innerHTML = data.rmtptp;
-  document.getElementById("tpxftp").innerHTML = data.tpxftp;
-  document.getElementById("tpxfxf").innerHTML = data.tpxfxf;
+  setMiniScore("rmxfrm", data.rmxfrm);
+  setMiniScore("rmxfxf", data.rmxfxf);
+  setMiniScore("rmtprm", data.rmtprm);
+  setMiniScore("rmtptp", data.rmtptp);
+  setMiniScore("tpxftp", data.tpxftp);
+  setMiniScore("tpxfxf", data.tpxfxf);
   refreshCompletedBouts();
+}
+
+function toScore(value) {
+  if (value === null || value === undefined || value === "") return 0;
+  const n = parseInt(value, 10);
+  return Number.isFinite(n) ? n : 0;
+}
+
+function setMiniScore(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = String(toScore(value));
 }
 
 function scoreValue(el) {
   if (!el) return 0;
-  const raw = (el.textContent || el.innerText || "").trim();
-  const n = parseFloat(raw);
-  return Number.isFinite(n) ? n : 0;
+  return toScore(el.textContent || el.innerText || "");
 }
 
 function refreshCompletedBouts() {
