@@ -6,4 +6,4 @@ This project was remixed from [Basketball Scoreboard](https://verren5.github.io/
 ## Usage
 The control page is not private, so be careful who has the link! Anyone with the link could control your scoreboard.
 
-We project the display on a projector screen during bouts and the statkeeper controls the board. Currently hosted with Render.
+We project the display on a projector screen during bouts and the statkeeper controls the board. Theoretically, you could share the scoreboard link & it would update in real time on all devices.
