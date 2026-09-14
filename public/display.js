@@ -15,26 +15,96 @@ if (window.location.protocol === "https:") {
 }
 
 const wsUrl = `${wsProtocol}//${wsHost}`;
-const socket = new WebSocket(wsUrl);
 
-socket.onopen = () => {
-  console.log("WebSocket connection established in display page");
-};
+let socket = null;
+let reconnectTimer = null;
+let reconnectDelay = 1000;
+const MAX_RECONNECT_DELAY = 15000;
 
-socket.onerror = (error) => {
-  console.error("WebSocket Error in display page: ", error);
-};
-
-socket.onclose = () => {
-  console.log("WebSocket connection closed in display page");
-};
-
-// Keepalive ping every 25 seconds
-setInterval(() => {
-  if (socket.readyState === WebSocket.OPEN) {
-    socket.send(JSON.stringify({ type: "ping" }));
+function clearReconnectTimer() {
+  if (reconnectTimer) {
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
   }
-}, 25000);
+}
+
+function scheduleReconnect() {
+  if (reconnectTimer) return;
+  const delay = reconnectDelay;
+  reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
+  console.log(`Reconnecting display WebSocket in ${delay}ms`);
+  reconnectTimer = setTimeout(() => {
+    reconnectTimer = null;
+    connectWebSocket();
+  }, delay);
+}
+
+function ensureConnected() {
+  if (
+    !socket ||
+    socket.readyState === WebSocket.CLOSED ||
+    socket.readyState === WebSocket.CLOSING
+  ) {
+    clearReconnectTimer();
+    reconnectDelay = 1000;
+    connectWebSocket();
+  }
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    ensureConnected();
+    if (typeof fetchData === "function") {
+      try { fetchData(true); } catch (e) { fetchData(); }
+    }
+  }
+});
+
+window.addEventListener("online", () => {
+  ensureConnected();
+});
+
+window.addEventListener("focus", () => {
+  ensureConnected();
+});
+
+function attachDisplayHandlers(sock) {
+  sock.onopen = () => {
+    console.log("WebSocket connection established in display page");
+    reconnectDelay = 1000;
+    clearReconnectTimer();
+    if (typeof fetchData === "function") {
+      try { fetchData(true); } catch (e) { fetchData(); }
+    }
+  };
+
+  sock.onerror = (error) => {
+    console.error("WebSocket Error in display page: ", error);
+  };
+
+  sock.onclose = () => {
+    console.log("WebSocket connection closed in display page");
+    scheduleReconnect();
+  };
+}
+
+function connectWebSocket() {
+  if (
+    socket &&
+    (socket.readyState === WebSocket.OPEN ||
+      socket.readyState === WebSocket.CONNECTING)
+  ) {
+    return;
+  }
+  console.log("Connecting display WebSocket to", wsUrl);
+  socket = new WebSocket(wsUrl);
+  attachDisplayHandlers(socket);
+  if (typeof bindDisplayMessageHandler === "function") {
+    bindDisplayMessageHandler(socket);
+  }
+}
+
+/* socket created by connectWebSocket() */
 
 // Team color config — teams are fixed, no logo switching needed
 const TEAM_COLORS = {
@@ -91,9 +161,13 @@ function handleMessage(data) {
   if (data.type === "pong") {
     console.log("Received pong from server");
   }
+  if (data.type === "initialData" && data.payload) {
+    useData(data.payload);
+  }
 }
 
-socket.addEventListener("message", (event) => {
+function bindDisplayMessageHandler(sock) {
+sock.addEventListener("message", (event) => {
   if (event.data instanceof Blob) {
     const reader = new FileReader();
     reader.onload = function () {
@@ -114,8 +188,10 @@ socket.addEventListener("message", (event) => {
     }
   }
 });
+}
 
-function fetchData() {
+
+function fetchData(quiet = false) {
   fetch("/api/recentData")
     .then((response) => {
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -155,3 +231,13 @@ function useData(data) {
 window.onload = () => {
   fetchData();
 };
+
+connectWebSocket();
+
+setInterval(() => {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ type: "ping" }));
+  } else if (document.visibilityState === "visible") {
+    ensureConnected();
+  }
+}, 25000);
