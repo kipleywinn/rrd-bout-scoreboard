@@ -1,40 +1,112 @@
-// const socket = new WebSocket(`wss://${window.location.host}`);
+let wsProtocol = "ws:";
+let wsHost = window.location.host;
 
-let wsProtocol = "ws:"; // Default to unsecure WebSocket for development
-let wsHost = window.location.host; // Use the current page's host (e.g., localhost:3000 or your-domain.com)
-
-// If the page itself is loaded over HTTPS, use wss for the WebSocket
 if (window.location.protocol === "https:") {
-    wsProtocol = "wss:";
+  wsProtocol = "wss:";
 }
 
-// Construct the full WebSocket URL
 const wsUrl = `${wsProtocol}//${wsHost}`;
 
-const socket = new WebSocket(wsUrl);
+let socket = null;
+let reconnectTimer = null;
+let reconnectDelay = 1000;
+const MAX_RECONNECT_DELAY = 15000;
 
-socket.onopen = () => {
-  console.log("WebSocket connection established");
-};
-
-socket.onerror = (error) => {
-  console.error("WebSocket Error: ", error);
-};
-
-socket.onclose = () => {
-  console.log("WebSocket connection closed");
-};
-
-socket.onmessage = function (event) {
-  console.log("Data from server: ", event.data);
-};
-
-// Keepalive ping every 25 seconds
-setInterval(() => {
-  if (socket.readyState === WebSocket.OPEN) {
-    socket.send(JSON.stringify({ type: "ping" }));
+function clearReconnectTimer() {
+  if (reconnectTimer) {
+    clearTimeout(reconnectTimer);
+    reconnectTimer = null;
   }
-}, 25000); // 25 seconds
+}
+
+function scheduleReconnect() {
+  if (reconnectTimer) return;
+  const delay = reconnectDelay;
+  reconnectDelay = Math.min(reconnectDelay * 2, MAX_RECONNECT_DELAY);
+  console.log(`Reconnecting control WebSocket in ${delay}ms`);
+  reconnectTimer = setTimeout(() => {
+    reconnectTimer = null;
+    connectWebSocket();
+  }, delay);
+}
+
+function connectWebSocket() {
+  if (
+    socket &&
+    (socket.readyState === WebSocket.OPEN ||
+      socket.readyState === WebSocket.CONNECTING)
+  ) {
+    return;
+  }
+
+  console.log("Connecting control WebSocket to", wsUrl);
+  socket = new WebSocket(wsUrl);
+
+  socket.onopen = () => {
+    console.log("WebSocket connection established");
+    reconnectDelay = 1000;
+    clearReconnectTimer();
+  };
+
+  socket.onerror = (error) => {
+    console.error("WebSocket Error: ", error);
+  };
+
+  socket.onclose = () => {
+    console.log("WebSocket connection closed");
+    scheduleReconnect();
+  };
+
+  socket.onmessage = function (event) {
+    console.log("Data from server: ", event.data);
+  };
+}
+
+function ensureConnected() {
+  if (
+    !socket ||
+    socket.readyState === WebSocket.CLOSED ||
+    socket.readyState === WebSocket.CLOSING
+  ) {
+    clearReconnectTimer();
+    reconnectDelay = 1000;
+    connectWebSocket();
+  }
+}
+
+function sendJson(payload) {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify(payload));
+    return true;
+  }
+  console.warn("WebSocket not connected; skipped send", payload);
+  ensureConnected();
+  return false;
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    ensureConnected();
+  }
+});
+
+window.addEventListener("online", () => {
+  ensureConnected();
+});
+
+window.addEventListener("focus", () => {
+  ensureConnected();
+});
+
+connectWebSocket();
+
+setInterval(() => {
+  if (socket && socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ type: "ping" }));
+  } else if (document.visibilityState === "visible") {
+    ensureConnected();
+  }
+}, 25000);
 
 
 // new function writing to JSON to store current data?
@@ -100,50 +172,36 @@ function useData(data) {
   roundNum = parseInt(data.roundNum);
   jamNum = parseInt(data.jamNum);
 
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "team1Point",
       team1Score,
-    })
-  );
-  socket.send(
-    JSON.stringify({
+    });
+  sendJson({
       type: "team2Point",
       team2Score,
-    })
-  );
-  socket.send(
-      JSON.stringify({
+    });
+  sendJson({
         type: "team3Point",
         team3Score,
-      })
-  );
-  socket.send(
-      JSON.stringify({
+      });
+  sendJson({
         type: "team4Point",
         team4Score,
-      })
-  );
-  socket.send(
-      JSON.stringify({
+      });
+  sendJson({
         type: "team5Point",
         team5Score,
-      })
-  );
+      });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "roundNum",
       roundNum,
-    })
-  );
+    });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "jamNum",
       jamNum,
-    })
-  );
+    });
 
   document.getElementById("override-team1-score-input").value = team1Score;
   document.getElementById("override-team2-score-input").value = team2Score;
@@ -173,48 +231,38 @@ let jamNum = 1;
 function overrideScore(team) {
   if (team === 1) {
     team1Score = document.getElementById("override-team1-score-input").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "team1Point",
         team1Score,
-      })
-    );
+      });
   }
   if (team === 2) {
     team2Score = document.getElementById("override-team2-score-input").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "team2Point",
         team2Score,
-      })
-    );
+      });
   }
   if (team === 3) {
     team3Score = document.getElementById("override-team3-score-input").value;
-    socket.send(
-        JSON.stringify({
+    sendJson({
           type: "team3Point",
           team3Score,
-        })
-    );
+        });
   }
   if (team === 4) {
     team4Score = document.getElementById("override-team4-score-input").value;
-    socket.send(
-        JSON.stringify({
+    sendJson({
           type: "team4Point",
           team4Score,
-        })
-    );
+        });
   }
   if (team === 5) {
     team5Score = document.getElementById("override-team5-score-input").value;
-    socket.send(
-        JSON.stringify({
+    sendJson({
           type: "team5Point",
           team5Score,
-        })
-    );
+        });
   }
 
   writeTheData();
@@ -225,22 +273,18 @@ function overrideRoundJam(item) {
   // item 1 is round
   if (item === 1) {
     roundNum = document.getElementById("roundNum").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "roundNum",
         roundNum,
-      })
-    );
+      });
   }
   // item 2 is jam
   if (item === 2) {
     jamNum = document.getElementById("jamNum").value;
-    socket.send(
-      JSON.stringify({
+    sendJson({
         type: "jamNum",
         jamNum,
-      })
-    );
+      });
   }
   writeTheData();
 }
@@ -255,50 +299,36 @@ function resetScore() {
   roundNum = 1;
   jamNum = 1;
 
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "team1Point",
       team1Score,
-    })
-  );
-  socket.send(
-    JSON.stringify({
+    });
+  sendJson({
       type: "team2Point",
       team2Score,
-    })
-  );
-  socket.send(
-      JSON.stringify({
+    });
+  sendJson({
         type: "team3Point",
         team3Score,
-      })
-  );
-  socket.send(
-      JSON.stringify({
+      });
+  sendJson({
         type: "team4Point",
         team4Score,
-      })
-  );
-  socket.send(
-      JSON.stringify({
+      });
+  sendJson({
         type: "team5Point",
         team5Score,
-      })
-  );
+      });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "roundNum",
       roundNum,
-    })
-  );
+    });
   
-  socket.send(
-    JSON.stringify({
+  sendJson({
       type: "jamNum",
       jamNum,
-    })
-  );
+    });
   
   document.getElementById("override-team1-score-input").value = team1Score;
   document.getElementById("override-team2-score-input").value = team2Score;
